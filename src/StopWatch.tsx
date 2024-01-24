@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Props } from 'react';
 import StopWatchButton from './StopWatchButton';
 import { StyledButtonWrapper } from './StylingComponents/StyledButtonWrapper';
 import StyledStopWatchWrapper from './StylingComponents/StyledStopWatchWrapper';
@@ -6,12 +6,17 @@ import StyledStopWatchWrapper from './StylingComponents/StyledStopWatchWrapper';
 type firstDigits = 11 | 14; // have the first digits be hours or minutes
 type lastDigits = 19 | 21 | 22; // have the last digits be seconds, tenths of a second, or hundredths of a second
 
-export default function Stopwatch(){
+interface TimerDigits {
+  firstDigits: firstDigits,
+  lastDigits: lastDigits
+}
+
+export default function Stopwatch(props: TimerDigits){
   const [time, setTime] = useState<number>(0);
   const [running, setRunning] = useState<boolean>(false);
   const [laps, setLaps] = useState<number[]>([]);
-  const firstDigits: firstDigits = 14;
-  const lastDigits: lastDigits = 22;
+  const firstDigits = props.firstDigits
+  const lastDigits = props.lastDigits
 
   
   // use effect block will update the time every 10 milliseconds
@@ -44,7 +49,7 @@ export default function Stopwatch(){
   return (
     <StyledStopWatchWrapper>
       <h2>Diego's Stopwatch</h2>
-      <div>Time: {new Date(time).toISOString().slice(firstDigits, lastDigits)}</div>
+      <div data-testid="timerDigits">Time: {new Date(time).toISOString().slice(firstDigits, lastDigits)}</div>
       { running ? (
       <StyledButtonWrapper>
         <StopWatchButton color={"#f44336"} hover={"#da190b"} onClick={stopStopwatch} text="Stop" />
@@ -67,4 +72,8 @@ export default function Stopwatch(){
   );
 };
 
+Stopwatch.defaultProps = {
+  firstDigits: 11,
+  lastDigits: 22
+}
 
