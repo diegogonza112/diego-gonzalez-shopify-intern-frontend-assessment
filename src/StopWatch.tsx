@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import StopWatchButton from './StopWatchButton';
+import { StyledButtonWrapper } from './StylingComponents/StyledButtonWrapper';
+import StyledStopWatchWrapper from './StylingComponents/StyledStopWatchWrapper';
 
 type firstDigits = 11 | 14; // have the first digits be hours or minutes
 type lastDigits = 19 | 21 | 22; // have the last digits be seconds, tenths of a second, or hundredths of a second
-
-const divStyling = {
-    fontFamily: "sans-serif",
-    alignContent: "middle"
-}
 
 export default function Stopwatch(){
   const [time, setTime] = useState<number>(0);
@@ -45,19 +42,18 @@ export default function Stopwatch(){
   };
 
   return (
-    <div style={divStyling}>
-      <h2>Stopwatch</h2>
+    <StyledStopWatchWrapper>
+      <h2>Diego's Stopwatch</h2>
       <div>Time: {new Date(time).toISOString().slice(firstDigits, lastDigits)}</div>
       { running ? (
-      <>
-        <StopWatchButton onClick={stopStopwatch} text="Stop" />
-        <StopWatchButton onClick={lapStopwatch} text="Lap" />
-      </>):(
-      <>
-        <StopWatchButton onClick={startStopwatch} text="Start" />
-        <StopWatchButton onClick={resetStopwatch} text="Reset" />
-        
-      </>)
+      <StyledButtonWrapper>
+        <StopWatchButton color={"#f44336"} hover={"#da190b"} onClick={stopStopwatch} text="Stop" />
+        <StopWatchButton color={"#555555"} hover={"#333333"} onClick={lapStopwatch} text="Lap" />
+      </StyledButtonWrapper>):(
+      <StyledButtonWrapper>
+        <StopWatchButton color={"#4CAF50"} hover={"#45a049"} onClick={startStopwatch} text="Start" />
+        <StopWatchButton color={"#555555"} hover={"#333333"} onClick={resetStopwatch} text="Reset" />
+      </StyledButtonWrapper>)
       }
       {/* Displays lap times */}
       {laps.length > 0 && (
@@ -67,7 +63,7 @@ export default function Stopwatch(){
           ))}
         </ul>
       )}
-    </div>
+    </StyledStopWatchWrapper>
   );
 };
 
